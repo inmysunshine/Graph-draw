@@ -1,0 +1,1 @@
+C:\nwjs-sdk-v0.13.0-rc3-win-ia32\nw.exe .

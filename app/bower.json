@@ -1,0 +1,19 @@
+{
+  "name": "Graph-Draw",
+  "description": "A application use for drawing graph",
+  "version": "0.0.0",
+  "homepage": "",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.4.x",
+    "bootstrap": "~3.1.1",
+    "amcharts": "~3.15.2",
+    "jquery": "~2.2.2",
+    "angular-material-icons": "^0.6.0",
+    "angular-material": "^1.1.0"
+  },
+  "resolutions": {
+    "angular": "1.5.2"
+  }
+}
