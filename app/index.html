@@ -24,11 +24,11 @@
                 <div ng-controller="ItemListCtrl">
                     <div ng-repeat="item in items">
                         <md-menu>
-                            <md-button class="menu-item" ng-click="$mdOpenMenu()">{{item.name}}</md-button>
+                            <md-list-item class="md-list-item" ng-click="$mdOpenMenu()">{{item.name}}</md-list-item>
                             <md-menu-content>
                                 <div ng-repeat="index in item.category">
                                     <md-menu-item>
-                                        <md-button style="width: 200px"ng-click="loadData([item.name,index])">{{item.name}}{{index}}</md-button>
+                                        <md-button style="width: 200px" ng-click="loadData([item.name,index])">{{item.name}}{{index}}</md-button>
                                     </md-menu-item>
                                 </div>
                             </md-menu-content>
@@ -94,6 +94,16 @@
     <script src="js/controllers/ItemListController.js" type="text/javascript"></script>
     <script src="js/directives/directive.js" type="text/javascript"></script>
     <script src="js/directives/ConChartsDirective.js" type="text/javascript"></script>
+    <script>
+    window.ondragover = function(e) {
+        e.preventDefault();
+        return false
+    }
+    window.ondrop = function(e) {
+        e.preventDefault();
+        return false
+    }
+    </script>
 </body>
 
 </html>
