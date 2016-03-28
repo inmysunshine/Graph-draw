@@ -23,9 +23,16 @@
             <md-content>
                 <div ng-controller="ItemListCtrl">
                     <div ng-repeat="item in items">
-                        <button class="menu-item menu-title md-menu-item" md-ink-ripple="#bbb">
-                            <span class="sidemenu-icon-text">{{item.name}}</span>
-                        </button>
+                        <md-menu>
+                            <md-button class="menu-item" ng-click="$mdOpenMenu()">{{item.name}}</md-button>
+                            <md-menu-content>
+                                <div ng-repeat="index in item.category">
+                                    <md-menu-item>
+                                        <md-button style="width: 200px"ng-click="loadData([item.name,index])">{{item.name}}{{index}}</md-button>
+                                    </md-menu-item>
+                                </div>
+                            </md-menu-content>
+                        </md-menu>
                     </div>
                 </div>
             </md-content>
@@ -40,7 +47,7 @@
                     <md-icon md-svg-icon="img/ic_add_circle_48px.svg" id="addIcon"></md-icon>
                 </md-button>
                 <md-button class="md-icon-button md-primary" aria-label="setting" style="margin-left: -8px">
-                    <md-icon md-svg-icon="img/ic_settings_48px.svg" ng-click="showAdvanced($event)"id="settingIcon"></md-icon>
+                    <md-icon md-svg-icon="img/ic_settings_48px.svg" ng-click="showAdvanced($event)" id="settingIcon"></md-icon>
                 </md-button>
             </div>
         </md-sidenav>
@@ -85,7 +92,6 @@
     <script src="js/controllers/controller.js" type="text/javascript"></script>
     <script src="js/controllers/IconController.js" type="text/javascript"></script>
     <script src="js/controllers/ItemListController.js" type="text/javascript"></script>
-    <script src="js/controllers/MenuController.js" type="text/javascript"></script>
     <script src="js/directives/directive.js" type="text/javascript"></script>
     <script src="js/directives/ConChartsDirective.js" type="text/javascript"></script>
 </body>

@@ -21,7 +21,7 @@ angular.module('drawApp.directive', [])
                             chart = new AmCharts.AmSerialChart();
 
                             chart.dataLoader = {
-                                "url": "data/2.json",
+                                "url": "data/Comb2.json",
                                 "format": "json"
                             };
 
@@ -92,6 +92,19 @@ angular.module('drawApp.directive', [])
                             chart.write("chartdiv");
                         });
 
+                        scope.loadData = function loadData(str) {
+                            console.log(str[0] + str[1]);
+                            if (str[0] == "组合应力") {
+                                urlStr = "data/Comb" + str[1] + ".json";
+                                //console.log(chart.dataLoader.url);
+                            };
+                            chart.dataLoader.url = urlStr;
+                            console.log(chart);
+                            chart.dataLoader.loadData();
+                            chart.validateData();
+                            //chart.validateNow();
+                        };
+
                         scope.loadMaxMin = function loadMaxMin() {
 
                             if (graph.labelText == "" || graph1.labelText == "") {
@@ -129,12 +142,29 @@ angular.module('drawApp.directive', [])
                             graph.lineThickness = scope.lineThickness;
                             graph1.lineThickness = scope.lineThickness;
                             //第二个表示坐标轴字体
-                            categoryAxis.fontSize=scope.axisFontSize;
-                            valueAxis.fontSize=scope.axisFontSize;
+                            categoryAxis.fontSize = scope.axisFontSize;
+                            valueAxis.fontSize = scope.axisFontSize;
                             //legend.fontSize=strs[1];
                             //第三个表示标注字体
-                            graph.fontSize=scope.labelFontSize;
-                            graph1.fontSize=scope.labelFontSize;
+                            graph.fontSize = scope.labelFontSize;
+                            graph1.fontSize = scope.labelFontSize;
+
+                            //分割字符串
+                            //var strs = new Array(); //定义一数组
+                            //strs = str.split("#"); //字符分割
+                            var decimal = Number(str[0].red) * 65536 + Number(str[0].green) * 256 + Number(str[0].blue);
+                            var s = decimal.toString(16);
+                            while (s.length < 6)
+                                s = "0" + s;
+
+                            var decimal1 = Number(str[1].red) * 65536 + Number(str[1].green) * 256 + Number(str[1].blue);
+                            var s1 = decimal1.toString(16);
+                            while (s1.length < 6)
+                                s1 = "0" + s1;
+
+
+                            graph.lineColor = "#" + s;
+                            graph1.lineColor = "#" + s1;
                             chart.validateNow();
                         }
 

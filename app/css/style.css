@@ -8,17 +8,14 @@ body {
 }
 .menu-item {
   height: 50px;
-  width: 100%;
-  padding: 0 28px;
+  width: 230px;
+  font-size: 100em;
   text-align: left;
-  text-decoration: none;
   border-width: 0;
   outline: none;
   background: none;
 }
-.sidemenu-icon-text {
-  padding: 15px;
-}
+
 .sidemenu-logo {
   height: 150px;
   border-bottom: 3px solid black;

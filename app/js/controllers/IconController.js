@@ -59,6 +59,7 @@ angular.module('drawApp.controller')
                         fullscreen: useFullScreen
                     })
                     .then(function(answer) {
+                        console.log(answer);
                         $scope.changeStatus(answer);
                     }, function() {});
                 $scope.$watch(function() {
@@ -67,14 +68,27 @@ angular.module('drawApp.controller')
                     $scope.customFullscreen = (wantsFullScreen === true);
                 });
             };
+
+
+
         }
     );
 
 function DialogController($scope, $rootScope, $mdDialog) {
 
+    var originatorEv;
     $scope.lineThickness = $rootScope.lineThickness;
     $scope.axisFontSize = $rootScope.axisFontSize;
     $scope.labelFontSize = $rootScope.labelFontSize;
+    $scope.label = "混凝土上缘最大应力";
+    $scope.col = $rootScope.col;
+    $scope.color = $scope.col[0];
+    //console.log($rootScope.color);
+
+    $scope.openMenu = function($mdOpenMenu, ev) {
+        originatorEv = ev;
+        $mdOpenMenu(ev);
+    };
     $scope.hide = function() {
         $mdDialog.hide();
     };
@@ -85,6 +99,17 @@ function DialogController($scope, $rootScope, $mdDialog) {
         $rootScope.lineThickness = $scope.lineThickness;
         $rootScope.axisFontSize = $scope.axisFontSize;
         $rootScope.labelFontSize = $scope.labelFontSize;
-        $mdDialog.hide(answer);
+        $rootScope.col = $scope.col;
+        $mdDialog.hide($scope.col);
+    };
+
+    $scope.selectItem1 = function() {
+        $scope.label = "混凝土上缘最大应力";
+        $scope.color = $scope.col[0];
+
+    };
+    $scope.selectItem2 = function() {
+        $scope.label = "混凝土上缘最小应力";
+        $scope.color = $scope.col[1];
     };
 }

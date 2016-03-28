@@ -32,30 +32,28 @@
                     <md-slider flex class="md-primary" md-discrete ng-model="labelFontSize" step="1" min="1" max="30" aria-label="rating">
                     </md-slider>
                 </div>
-                <h3>RGB <span ng-attr-style="border: 1px solid #333; background: rgb({{color.red}},{{color.green}},{{color.blue}})"></span></h3>
-                <div class="md-menu-demo" ng-controller="BasicDemoCtrl as ctrl" ng-cloak>
+                <div class="md-menu-demo" ng-cloak>
                     <md-menu>
-                        <md-button aria-label="Open phone interactions menu" class="md-icon-button" ng-click="ctrl.openMenu($mdOpenMenu, $event)">
-                            <md-icon md-menu-origin md-svg-icon="img/ic_grade_48px.svg"></md-icon>
+                    <div>
+                        <md-button aria-label="Open menu" ng-click="openMenu($mdOpenMenu, $event)">{{label}}
                         </md-button>
+                        <md-icon md-menu-origin md-svg-icon="img/ic_lens_48px.svg" ng-attr-style="border: 1px solid #333; color: rgb({{color.red}},{{color.green}},{{color.blue}});background: rgb({{color.red}},{{color.green}},{{color.blue}})"></md-icon>
+                        </div>
                         <md-menu-content width="4">
                             <md-menu-item>
-                                <md-button ng-click="ctrl.redial($event)">
-                                    <md-icon md-svg-icon="img/ic_grade_48px.svg" md-menu-align-target></md-icon>
-                                    Redial
+                                <md-button ng-click="selectItem1()">
+                                    混凝土上缘最大应力
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
-                                <md-button disabled="disabled" ng-click="ctrl.checkVoicemail()">
-                                    <md-icon md-svg-icon="img/ic_grade_48px.svg"></md-icon>
-                                    Check voicemail
+                                <md-button ng-click="selectItem2()">
+                                    混凝土上缘最小应力
                                 </md-button>
                             </md-menu-item>
                             <md-menu-divider></md-menu-divider>
                             <md-menu-item>
-                                <md-button ng-click="ctrl.toggleNotifications()">
-                                    <md-icon md-svg-icon="simg/ic_grade_48px.svg"></md-icon>
-                                    {{ctrl.notificationsEnabled ? 'Disable' : 'Enable' }} notifications
+                                <md-button ng-click="selectItem3()">
+                                    其他
                                 </md-button>
                             </md-menu-item>
                         </md-menu-content>
