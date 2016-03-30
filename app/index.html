@@ -5,17 +5,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Graph-Draw</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <link rel="stylesheet" href="css/animate.css" type="text/css" />
     <!--angular material-->
     <link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css">
-    <!--link rel="stylesheet" href="bower_components/Materialize/dist/css/materialize.min.css" type="text/css" /-->
     <!--link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css"-->
+    <!--link rel="stylesheet" href="bower_components/Materialize/dist/css/materialize.min.css" type="text/css" /-->
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
 <body ng-app="drawApp" layout="row">
     <!-- Container #1 -->
-    <div flex layout="row">
+    <div ng-controller="TabController" flex layout="row">
         <md-sidenav layout="column" style="overflow: hidden; display: flex;width: 250px;height: 700px" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="true">
             <md-toolbar class="md-primary md-hue-2">
                 <div class="sidemenu-logo"></div>
@@ -28,7 +28,7 @@
                             <md-menu-content>
                                 <div ng-repeat="index in item.category">
                                     <md-menu-item>
-                                        <md-button style="width: 200px" ng-click="loadData([item.name,index])">{{item.name}}{{index}}</md-button>
+                                        <md-button style="width: 200px" ng-click="loadData([item.name,index],currentNum)">{{item.name}}{{index}}</md-button>
                                     </md-menu-item>
                                 </div>
                             </md-menu-content>
@@ -52,25 +52,28 @@
             </div>
         </md-sidenav>
         <!-- Container #3 -->
-        <md-content id="content">
-            <div ng-cloak style="margin-left: 5px">
+        <!--TabController控制<concretechart>会出现错误-->
+        <div class="sample" layout="column"  ng-cloak>
+            <md-menu-bar>
+                <md-button ng-repeat="tab in tabs" class={{tab.state}} ng-click="changState(tab.Num)">
+                {{tab.title}}
+                </md-button>
+            </md-menu-bar>
+            <div style="padding-left: 10px"id="content">
+            {{conChartLabel}}
+            <concretechart></concretechart>
+            </div>
+        </div>
+        <!--div ng-cloak style="margin-left: 5px">
                 <md-tabs md-dynamic-height md-border-bottom>
-                    <md-tab label="右幅第三联">
+                    <md-tab ng-repeat="tab in tabs" label={{tab.title}}>
                         <md-content class="md-padding">
+                            {{conChartLabel}}
                             <concretechart></concretechart>
                         </md-content>
                     </md-tab>
-                    <md-tab label="two">
-                        <md-content class="md-padding">
-                        </md-content>
-                    </md-tab>
-                    <md-tab label="three">
-                        <md-content class="md-padding">
-                        </md-content>
-                    </md-tab>
                 </md-tabs>
-            </div>
-        </md-content>
+            </div-->
     </div>
     <!--amcharts-->
     <script src="bower_components/amcharts/dist/amcharts/amcharts.js" type="text/javascript"></script>
@@ -86,24 +89,15 @@
     <script type="text/javascript" src="bower_components/angular-material/angular-material.js"></script>
     <script type='text/javascript' src="bower_components/angular-material-icons/angular-material-icons.min.js"></script>
     <!--script src="bower_components/Materialize/dist/js/materialize.min.js" type="text/javascript"></script-->
-    <!--script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="js/drawchart_comb.js" type="text/javascript" charset="gb2312"></script-->
+    <!--script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script-->
     <script src="js/app.js" type="text/javascript"></script>
     <script src="js/controllers/controller.js" type="text/javascript"></script>
     <script src="js/controllers/IconController.js" type="text/javascript"></script>
     <script src="js/controllers/ItemListController.js" type="text/javascript"></script>
+    <script src="js/controllers/TabController.js" type="text/javascript"></script>
     <script src="js/directives/directive.js" type="text/javascript"></script>
     <script src="js/directives/ConChartsDirective.js" type="text/javascript"></script>
-    <script>
-    window.ondragover = function(e) {
-        e.preventDefault();
-        return false
-    }
-    window.ondrop = function(e) {
-        e.preventDefault();
-        return false
-    }
-    </script>
+    <script src="js/fileManage/FileManage.js" type="text/javascript"></script>
 </body>
 
 </html>

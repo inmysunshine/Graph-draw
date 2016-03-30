@@ -19,11 +19,15 @@ angular.module('drawApp.directive', [])
                         AmCharts.ready(function() {
                             // SERIAL CHART
                             chart = new AmCharts.AmSerialChart();
+                            console.log('AmCharts ready !');
+                            console.log(scope.path);
 
                             chart.dataLoader = {
-                                "url": "data/Comb2.json",
+                                "url": "/data/1/Comb2.json",
                                 "format": "json"
                             };
+
+                            console.log('The dataLoader url is ' + chart.dataLoader.url);
 
                             //chart.dataProvider = chartData;
                             chart.marginLeft = 10;
@@ -92,18 +96,44 @@ angular.module('drawApp.directive', [])
                             chart.write("chartdiv");
                         });
 
-                        scope.loadData = function loadData(str) {
-                            console.log(str[0] + str[1]);
+                        //这些函数都是用来全局的函数，用来修改chart中的数据
+                        //loadData()定义了当菜单变化时载入的数据
+                        scope.loadData = function loadData(str, tabNum) {
+                            scope.conChartLabel = "组合应力" + str[1];
+                            //console.log(str[0] + str[1]);
+                            var urlStr;
                             if (str[0] == "组合应力") {
-                                urlStr = "data/Comb" + str[1] + ".json";
+                                urlStr = "data/" + tabNum + "/Comb" + str[1] + ".json";
                                 //console.log(chart.dataLoader.url);
                             };
                             chart.dataLoader.url = urlStr;
-                            console.log(chart);
+                            //console.log(chart);
+                            //加载两次，因为只加载一次会出现暂时无法解释的BUG
                             chart.dataLoader.loadData();
                             chart.validateData();
-                            //chart.validateNow();
+                            chart.validateNow();
+                            chart.dataLoader.loadData();
+                            chart.validateData();
+                            chart.validateNow();
                         };
+                        //loadData2()定义了当按钮变化时载入的数据
+                        scope.loadData2 = function loadData2(tabNum) {
+                            console.log("before loadding data,the tabNum is " + tabNum);
+                            var urlStr = "data/" + tabNum + "/Comb1.json";
+                            scope.conChartLabel = "组合应力" + 1;
+                            chart.dataLoader.url = urlStr;
+                            //console.log(chart);
+                            chart.dataLoader.loadData();
+                            chart.validateData();
+                            chart.validateNow();
+                            chart.dataLoader.loadData();
+                            chart.validateData();
+                            chart.validateNow();
+                            console.log("after loadding data,the tabNum is " + tabNum);
+
+                        };
+
+
 
                         scope.loadMaxMin = function loadMaxMin() {
 

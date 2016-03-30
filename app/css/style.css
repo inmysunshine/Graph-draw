@@ -2,6 +2,7 @@ body {
   margin: 0px;
   padding: 0px;
   font-family: Consolas, 微软雅黑;
+  font-size: 1em;
   /*
     -webkit-app-region:drag;
     */
@@ -28,7 +29,7 @@ body {
   top: 650px;
 }
 #content {
-  width: 1025px;
+  width: 950px;
   height: 700px;
   background-color: #F6F6F6;
   /*

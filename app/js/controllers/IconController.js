@@ -1,4 +1,4 @@
-//This controller defined action of icons
+ //This controller defined action of icons
 
 angular.module('drawApp.controller')
     .controller('IconCtrl',
@@ -68,9 +68,6 @@ angular.module('drawApp.controller')
                     $scope.customFullscreen = (wantsFullScreen === true);
                 });
             };
-
-
-
         }
     );
 
