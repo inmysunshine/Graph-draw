@@ -7,6 +7,7 @@ var drawApp = angular.module('drawApp', [
     'ngMdIcons',
     'drawApp.controller',
     'drawApp.controller2',
+    'drawApp.controller3',
     'drawApp.directive'
 ]);
 

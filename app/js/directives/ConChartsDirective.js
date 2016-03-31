@@ -20,7 +20,6 @@ angular.module('drawApp.directive', [])
                             // SERIAL CHART
                             chart = new AmCharts.AmSerialChart();
                             console.log('AmCharts ready !');
-                            console.log(scope.path);
 
                             chart.dataLoader = {
                                 "url": "/data/1/Comb2.json",

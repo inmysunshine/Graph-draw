@@ -1,24 +1,44 @@
 var fs = require('fs');
 
 //测试时候用
-//var path = "C:/Documents and Settings/Administrator/桌面/test/";
-//var name = "12.out";
-//createData(path, name);
+//var str = "C:/Documents and Settings/Administrator/桌面/test/";
+//var path = "data/1";
+//createData(str, path);
 
-function createData(str,path) {
-    console.log(str);
+//函数：createData
+//参数str：输入文件的全部路径
+//参数path：生成数据文件存放的目录，形如data/1
+//函数用途：将str的文件生成数据放到path下
+function createData(str, path) {
+    //console.log(str);
     //var input = fs.createReadStream(str);
     var input = fs.readFileSync(str, "utf-8");
     readLines(input, path);
 }
 
+function delData() {
+    // 删除data文件夹 
+    var exec = require('child_process').exec;
+    exec('rm -rf data/',
+        function(error, stdout, stderr) {
+            if (error !== null) {
+                console.log('exec error: ' + error);
+            }
 
-//函数：readLines用于从输入的流中读取一行，然后将剩余的对象赋值给
+        });
+}
+
+//函数：readLines
+//参数data：输入的文件数据
+//参数path：生成数据文件存放的目录，形如data/1
+//函数用途：createData的具体实现
+
 function readLines(data, outputpath) {
+
+    //参数：remaining表示数据被一行一行读取后剩余的数据
     //参数：row表示当前的行号
     //参数：combNum表示组合数
     //参数：eleNum表示单元总数
-    //参数：outputpath表示生成数据文件存放的目录，形如data/1
     var remaining = '';
     var row = 0;
     var combNum = 0;
@@ -49,6 +69,7 @@ function readLines(data, outputpath) {
         }
         //对每一行进行判断，如果当前行有“CO0=”形式的字符，就对该行之后的数据进行处理
         if (line.substring(10, 14) == 'CO0=') {
+            //参数currentCombNum表示当前是第几个组合数
             currentCombNum = line.substring(16, 17);
             //console.log("In combination"+currentCombNum);
             var result = '';
@@ -62,18 +83,66 @@ function readLines(data, outputpath) {
             remaining = remaining.substring(index + 1);
             row += 2;
             //开始处理数据
+            var up_max_max = -1000;
+            var up_max_num = 0;
+            var up_min_min = 1000;
+            var up_min_num = 0;
+            var dwn_max_max = -1000;
+            var dwn_max_num = 0;
+            var dwn_min_min = 1000;
+            var dwn_min_num = 0;
+            var div_max_max = -1000;
+            var div_max_num = 0;
+            var div_min_min = 1000;
+            var div_min_num = 0;
             for (var i = 1; i <= eleNum; i++) {
-                //if(currentCombNum==5){
+                //if(currentCombNum==1){
                 //console.log(line);
                 //}                 
                 result += '{\n';
                 result += '"num":' + line.substring(4, 7) + ',\n';
-                result += '"up_max":' + (Number(line.substring(11, 23)) / 6).toFixed(2) + ',\n';
-                result += '"up_min":' + (Number(line.substring(23, 35)) / 6).toFixed(2) + ',\n';
-                result += '"dwn_max":' + (Number(line.substring(35, 47))).toFixed(1) + ',\n';
-                result += '"dwn_min":' + (Number(line.substring(47, 59))).toFixed(1) + ',\n';
-                result += '"div_max":' + (Number(line.substring(59, 71))).toFixed(1) + ',\n';
-                result += '"div_min":' + (Number(line.substring(71, 79))).toFixed(1) + '\n';
+                var t1 = (Number(line.substring(11, 23)) / 6).toFixed(2);
+                var t2 = (Number(line.substring(23, 35)) / 6).toFixed(2);
+                var t3 = (Number(line.substring(35, 47))).toFixed(1);
+                var t4 = (Number(line.substring(47, 59))).toFixed(1);
+                var t5 = (Number(line.substring(59, 71))).toFixed(1);
+                var t6 = (Number(line.substring(71, 79))).toFixed(1);
+                if (t1 > up_max_max) {
+                    up_max_num = i;
+                    up_max_max = t1;
+                }
+                if (t2 < up_min_min) {
+                    up_min_num = i;
+                    up_min_min = t2;
+                }
+                if (t3 > dwn_max_max) {
+                    dwn_max_num = i;
+                    dwn_max_max = t3;
+                }
+                if (t4 < dwn_min_min) {
+                    dwn_min_num = i;
+                    dwn_min_min = t4;
+                }
+                if (t5 > div_max_max) {
+                    div_max_num = i;
+                    div_max_max = t5;
+                }
+                if (t6 < div_min_min) {
+                    div_min_num = i;
+                    div_min_min = t6;
+                }
+                result += '"up_max":' + t1 + ',\n';
+                result += '"up_min":' + t2 + ',\n';
+                result += '"dwn_max":' + t3 + ',\n';
+                result += '"dwn_min":' + t4 + ',\n';
+                result += '"div_max":' + t5 + ',\n';
+                result += '"div_min":' + t6 + ',\n';
+                result += '"up_max' + i + '":' + t1 + ',\n';
+                result += '"up_min' + i + '":' + t2 + ',\n';
+                result += '"dwn_max' + i + '":' + t3 + ',\n';
+                result += '"dwn_min' + i + '":' + t4 + ',\n';
+                result += '"div_max' + i + '":' + t5 + ',\n';
+                result += '"div_min' + i + '":' + t6 + '\n';
                 result += '}';
                 if (i != eleNum) {
                     result += ',\n';

@@ -1,6 +1,8 @@
 var controller = angular.module('drawApp.controller', []);
 
 controller.run(function($rootScope) {
+
+console.log("the rootScope begin running");
  
  //全局的变量
  $rootScope.lineThickness = 3;

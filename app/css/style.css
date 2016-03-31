@@ -1,48 +1,85 @@
 body {
-  margin: 0px;
-  padding: 0px;
-  font-family: Consolas, 微软雅黑;
-  font-size: 1em;
-  /*
+    margin: 0px;
+    padding: 0px;
+    font-family: Consolas, 微软雅黑;
+    font-size: 1em;
+    /*
     -webkit-app-region:drag;
     */
 }
+
+
+/*
+.表示选择class
+#表示选择id
+*/
+
 .menu-item {
-  height: 50px;
-  width: 200px;
-  font-size: 100em;
-  text-align: left;
-  border-width: 0;
-  outline: none;
-  background: none;
+    height: 50px;
+    width: 200px;
+    font-size: 100em;
+    text-align: left;
+    border-width: 0;
+    outline: none;
+    background: none;
 }
 
 .sidemenu-logo {
-  height: 150px;
-  border-bottom: 3px solid black;
-  background: url('../img/logo.png');
-  background-size: cover;
+    height: 150px;
+    border-bottom: 3px solid black;
+    background: url('../img/logo.png');
+    background-size: cover;
 }
+
 .sidemenu-footer {
-  width: 250px;
-  position: absolute;
-  top: 650px;
+    width: 250px;
+    position: absolute;
+    top: 645px;
 }
+
 #content {
-  width: 950px;
-  height: 700px;
-  background-color: #F6F6F6;
-  /*
+    width: 950px;
+    height: 700px;
+    background-color: #F6F6F6;
+    /*
     background-color:black; 
     */
 }
+
 #settingIcon {
-  fill: #262c2e;
-  width: 25px;
-  height: 25px;
+    fill: #262c2e;
+    width: 25px;
+    height: 25px;
 }
+
 #addIcon {
-  fill: #262c2e;
-  width: 25px;
-  height: 25px;
+    fill: #262c2e;
+    width: 25px;
+    height: 25px;
+}
+
+#addFileIcon {
+    fill: #262c2e;
+    width: 25px;
+    height: 25px;
+    z-index: 10;
+    position:absolute;
+    top: 16px;
+}
+
+#addIcon {
+    fill: #262c2e;
+    width: 25px;
+    height: 25px;
+}
+
+#openFile {
+    background-color: #262c2e;
+    opacity: 0;
+    width: 25px;
+    height: 25px;
+    z-index: 20;
+    position:absolute;
+    top: 20px;
+
 }

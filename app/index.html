@@ -36,6 +36,8 @@
                     </div>
                 </div>
             </md-content>
+            <!--input type=file id="mxh">
+            <input type=button onclick="console.log(document.all.mxh.value)" value="get"-->
             <div ng-controller="IconCtrl" class="sidemenu-footer">
                 <md-button class="md-icon-button md-primary" aria-label="creat" style="padding-left: 0px">
                     <md-icon md-svg-icon="img/ic_create_48px.svg" id="addIcon" ng-click="showPrompt($event)"></md-icon>
@@ -44,7 +46,8 @@
                     <md-icon md-svg-icon="img/ic_grade_48px.svg" id="settingIcon" ng-click="loadMaxMin()"></md-icon>
                 </md-button>
                 <md-button class="md-icon-button md-primary" aria-label="add" style="margin-left: -8px">
-                    <md-icon md-svg-icon="img/ic_add_circle_48px.svg" id="addIcon"></md-icon>
+                    <div id="openFile"><input type="file" onchange="angular.element(this).scope().fileChange(this.files)"></div>
+                    <div id="addFileIcon"><md-icon md-svg-icon="img/ic_add_circle_48px.svg" id="addIcon"></md-icon></div>
                 </md-button>
                 <md-button class="md-icon-button md-primary" aria-label="setting" style="margin-left: -8px">
                     <md-icon md-svg-icon="img/ic_settings_48px.svg" ng-click="showAdvanced($event)" id="settingIcon"></md-icon>
@@ -53,15 +56,15 @@
         </md-sidenav>
         <!-- Container #3 -->
         <!--TabController控制<concretechart>会出现错误-->
-        <div class="sample" layout="column"  ng-cloak>
+        <div class="sample" layout="column" ng-cloak>
             <md-menu-bar>
                 <md-button ng-repeat="tab in tabs" class={{tab.state}} ng-click="changState(tab.Num)">
-                {{tab.title}}
+                    {{tab.title}}
                 </md-button>
             </md-menu-bar>
-            <div style="padding-left: 10px"id="content">
-            {{conChartLabel}}
-            <concretechart></concretechart>
+            <div style="padding-left: 10px" id="content">
+                {{conChartLabel}}
+                <concretechart></concretechart>
             </div>
         </div>
         <!--div ng-cloak style="margin-left: 5px">
