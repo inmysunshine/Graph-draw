@@ -57,19 +57,20 @@
         };
 
         //函数：addTab() 
-        //用途: 输入文件名以及文件路径，增加tabNum(当前按钮的总个数)，更新按钮显示情况情况
+        //用途: 输入文件名以及文件路径，先生成数据，再增加tabNum(当前按钮的总个数)，更新按钮显示情况情况
         //参数：name即输入文件的文件名
         //参数: path数据文件的路径
         $scope.addTab = function(name, path) {
-            //将文件拖动进来的时候，先更新按钮列表，弹出提示
             $scope.tabNum++;
-            tabs.push({ title: name, Num: $scope.tabNum, state: 'md-primary' });
-            $scope.changState($scope.tabNum);
-            $scope.showAlert();
-            //根据当前激活的页面的数量，决定将数据生成到第几个文件夹里
+            //根据页面总数量，生成数据
             var outPath = 'data/' + $scope.tabNum;
             createData(path, outPath);
-            //$scope.changState($scope.tabNum);
+
+            //更新按钮列表，弹出提示，载入数据被包含在changeState()函数之中
+            tabs.push({ title: name, Num: $scope.tabNum, state: 'md-primary' });
+            $scope.changState($scope.tabNum);
+            //$scope.loadData2($scope.tabNum);
+            $scope.showAlert();
 
         };
 

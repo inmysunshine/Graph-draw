@@ -111,23 +111,23 @@ angular.module('drawApp.directive', [])
                             chart.dataLoader.loadData();
                             chart.validateData();
                             chart.validateNow();
-                            chart.dataLoader.loadData();
-                            chart.validateData();
-                            chart.validateNow();
+                            //chart.dataLoader.loadData();
+                            //chart.validateData();
+                            //chart.validateNow();
                         };
                         //loadData2()定义了当按钮变化时载入的数据
                         scope.loadData2 = function loadData2(tabNum) {
                             console.log("before loadding data,the tabNum is " + tabNum);
                             var urlStr = "data/" + tabNum + "/Comb1.json";
+                            //console.log("the urlStr is " + urlStr);
                             scope.conChartLabel = "组合应力" + 1;
                             chart.dataLoader.url = urlStr;
-                            //console.log(chart);
                             chart.dataLoader.loadData();
-                            chart.validateData();
                             chart.validateNow();
-                            chart.dataLoader.loadData();
                             chart.validateData();
-                            chart.validateNow();
+                            //chart.dataLoader.loadData();
+                            //chart.validateData();
+                            //chart.validateNow();
                             console.log("after loadding data,the tabNum is " + tabNum);
 
                         };

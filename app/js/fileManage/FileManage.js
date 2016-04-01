@@ -10,14 +10,18 @@ var fs = require('fs');
 //参数path：生成数据文件存放的目录，形如data/1
 //函数用途：将str的文件生成数据放到path下
 function createData(str, path) {
+    console.log("begin creating Data!");
     //console.log(str);
     //var input = fs.createReadStream(str);
     var input = fs.readFileSync(str, "utf-8");
     readLines(input, path);
+    console.log("has createData!");
+
 }
 
 function delData() {
     // 删除data文件夹 
+    /*
     var exec = require('child_process').exec;
     exec('rm -rf data/',
         function(error, stdout, stderr) {
@@ -26,6 +30,7 @@ function delData() {
             }
 
         });
+    */
 }
 
 //函数：readLines
@@ -83,18 +88,6 @@ function readLines(data, outputpath) {
             remaining = remaining.substring(index + 1);
             row += 2;
             //开始处理数据
-            var up_max_max = -1000;
-            var up_max_num = 0;
-            var up_min_min = 1000;
-            var up_min_num = 0;
-            var dwn_max_max = -1000;
-            var dwn_max_num = 0;
-            var dwn_min_min = 1000;
-            var dwn_min_num = 0;
-            var div_max_max = -1000;
-            var div_max_num = 0;
-            var div_min_min = 1000;
-            var div_min_num = 0;
             for (var i = 1; i <= eleNum; i++) {
                 //if(currentCombNum==1){
                 //console.log(line);
@@ -107,30 +100,7 @@ function readLines(data, outputpath) {
                 var t4 = (Number(line.substring(47, 59))).toFixed(1);
                 var t5 = (Number(line.substring(59, 71))).toFixed(1);
                 var t6 = (Number(line.substring(71, 79))).toFixed(1);
-                if (t1 > up_max_max) {
-                    up_max_num = i;
-                    up_max_max = t1;
-                }
-                if (t2 < up_min_min) {
-                    up_min_num = i;
-                    up_min_min = t2;
-                }
-                if (t3 > dwn_max_max) {
-                    dwn_max_num = i;
-                    dwn_max_max = t3;
-                }
-                if (t4 < dwn_min_min) {
-                    dwn_min_num = i;
-                    dwn_min_min = t4;
-                }
-                if (t5 > div_max_max) {
-                    div_max_num = i;
-                    div_max_max = t5;
-                }
-                if (t6 < div_min_min) {
-                    div_min_num = i;
-                    div_min_min = t6;
-                }
+
                 result += '"up_max":' + t1 + ',\n';
                 result += '"up_min":' + t2 + ',\n';
                 result += '"dwn_max":' + t3 + ',\n';
@@ -168,8 +138,12 @@ function readLines(data, outputpath) {
                 //console.log('更新目录已创建成功\n');
             }
             console.log(outputpath + "/Comb" + currentCombNum + ".json");
-            var output = fs.createWriteStream(outputpath + "/Comb" + currentCombNum + ".json");
-            output.write(result);
+
+            //输出流是异步的啊！！！
+            //var output = fs.createWriteStream(outputpath + "/Comb" + currentCombNum + ".json");
+            //output.write(result);
+            var output = outputpath + "/Comb" + currentCombNum + ".json";
+            fs.writeFileSync(output, result);
         }
         index = remaining.indexOf('\n');
     }
