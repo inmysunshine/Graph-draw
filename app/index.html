@@ -14,12 +14,13 @@
 </head>
 
 <body ng-app="drawApp" layout="row">
-    <!-- Container #1 -->
-    <div ng-controller="TabController" flex layout="row">
+    <div flex layout="row">
         <md-sidenav layout="column" style="overflow: hidden; display: flex;width: 250px;height: 700px" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="true">
+            <!-- Container #1 -->
             <md-toolbar class="md-primary md-hue-2">
                 <div class="sidemenu-logo"></div>
             </md-toolbar>
+            <!-- Container #2 -->
             <md-content>
                 <div ng-controller="ItemListCtrl">
                     <div ng-repeat="item in items">
@@ -28,7 +29,7 @@
                             <md-menu-content>
                                 <div ng-repeat="index in item.category">
                                     <md-menu-item>
-                                        <md-button style="width: 200px" ng-click="loadData([item.name,index],currentNum)">{{item.name}}{{index}}</md-button>
+                                        <md-button style="width: 200px" ng-click="loadData(item.name,index,currentNum)">{{item.name}}{{index}}</md-button>
                                     </md-menu-item>
                                 </div>
                             </md-menu-content>
@@ -36,8 +37,6 @@
                     </div>
                 </div>
             </md-content>
-            <!--input type=file id="mxh">
-            <input type=button onclick="console.log(document.all.mxh.value)" value="get"-->
             <div ng-controller="IconCtrl" class="sidemenu-footer">
                 <md-button class="md-icon-button md-primary" aria-label="creat" style="padding-left: 0px">
                     <md-icon md-svg-icon="img/ic_create_48px.svg" id="addIcon" ng-click="showPrompt($event)"></md-icon>
@@ -46,8 +45,12 @@
                     <md-icon md-svg-icon="img/ic_grade_48px.svg" id="settingIcon" ng-click="loadMaxMin()"></md-icon>
                 </md-button>
                 <md-button class="md-icon-button md-primary" aria-label="add" style="margin-left: -8px">
-                    <div id="openFile"><input type="file" onchange="angular.element(this).scope().fileChange(this.files)"></div>
-                    <div id="addFileIcon"><md-icon md-svg-icon="img/ic_add_circle_48px.svg" id="addIcon"></md-icon></div>
+                    <div id="openFile">
+                        <input type="file" onchange="angular.element(this).scope().fileChange(this.files)">
+                    </div>
+                    <div id="addFileIcon">
+                        <md-icon md-svg-icon="img/ic_add_circle_48px.svg" id="addIcon"></md-icon>
+                    </div>
                 </md-button>
                 <md-button class="md-icon-button md-primary" aria-label="setting" style="margin-left: -8px">
                     <md-icon md-svg-icon="img/ic_settings_48px.svg" ng-click="showAdvanced($event)" id="settingIcon"></md-icon>
@@ -55,10 +58,9 @@
             </div>
         </md-sidenav>
         <!-- Container #3 -->
-        <!--TabController控制<concretechart>会出现错误-->
         <div class="sample" layout="column" ng-cloak>
-            <md-menu-bar>
-                <md-button ng-repeat="tab in tabs" class={{tab.state}} ng-click="changState(tab.Num)">
+            <md-menu-bar ng-controller="TabController">
+                <md-button ng-repeat="tab in tabs" class={{tab.state}} ng-click="changTabStatus(tab.Num)">
                     {{tab.title}}
                 </md-button>
             </md-menu-bar>
@@ -67,16 +69,6 @@
                 <concretechart></concretechart>
             </div>
         </div>
-        <!--div ng-cloak style="margin-left: 5px">
-                <md-tabs md-dynamic-height md-border-bottom>
-                    <md-tab ng-repeat="tab in tabs" label={{tab.title}}>
-                        <md-content class="md-padding">
-                            {{conChartLabel}}
-                            <concretechart></concretechart>
-                        </md-content>
-                    </md-tab>
-                </md-tabs>
-            </div-->
     </div>
     <!--amcharts-->
     <script src="bower_components/amcharts/dist/amcharts/amcharts.js" type="text/javascript"></script>
@@ -100,6 +92,7 @@
     <script src="js/controllers/TabController.js" type="text/javascript"></script>
     <script src="js/directives/directive.js" type="text/javascript"></script>
     <script src="js/directives/ConChartsDirective.js" type="text/javascript"></script>
+    <script src="js/services/GraphService.js" type="text/javascript"></script>
     <script src="js/fileManage/FileManage.js" type="text/javascript"></script>
 </body>
 

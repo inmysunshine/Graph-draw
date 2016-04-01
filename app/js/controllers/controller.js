@@ -3,7 +3,7 @@ var controller = angular.module('drawApp.controller', []);
 controller.run(function($rootScope) {
 
 console.log("the rootScope begin running");
- 
+ /*
  //全局的变量
  $rootScope.lineThickness = 3;
  $rootScope.axisFontSize=15;
@@ -15,4 +15,5 @@ console.log("the rootScope begin running");
 
 $rootScope.conChartLabel="组合应力2";
 $rootScope.currentNum=1;
+*/
 })

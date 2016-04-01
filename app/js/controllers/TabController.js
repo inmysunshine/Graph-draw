@@ -4,7 +4,6 @@
         .module('drawApp.controller2', ['ngMaterial'])
         .controller('TabController', TabCtrl);
 
-    //这是一个全局的控制器
 
     function TabCtrl($scope, $log, $mdDialog, $window, $rootScope) {
         var tabs = [
@@ -15,8 +14,6 @@
         $scope.tabNum = 1; //总共按钮的编号
 
 
-
-
         $scope.removeTab = function(tab) {
             var index = tabs.indexOf(tab);
             tabs.splice(index, 1);
@@ -25,29 +22,26 @@
         $scope.showAlert = function(ev) {
             $mdDialog.show(
                 $mdDialog.alert()
-                .parent(angular.element(document.querySelector('#popupContainer')))
                 .clickOutsideToClose(true)
-                .title('This is an alert title')
-                .textContent('You can specify some description text in here.')
-                .ariaLabel('Alert Dialog Demo')
-                .ok('Got it!')
+                .title('通知')
+                .textContent('成功载入数据文件')
+                .ariaLabel('Loadding Sucessfully')
+                .ok('确认')
                 .targetEvent(ev)
             );
         };
 
-
-
-        //函数：changState
+        //函数：changTabStatus
         //参数:index即为选择的按钮的编号属性
         //用途:根据选择的按钮的编号属性，更新各个按钮的显示状态
         //这个函数调用了ConChartDirective的loadData2方法以及rootScope上的currentNum全局变量
-        $scope.changState = function(index) {
+        $scope.changTabStatus = function(index) {
             $scope.loadData2(index);
             $rootScope.currentNum = index;
             //console.log($scope.tabs);
             //console.log("after loadding data,the index is " + index);
             for (var t = 0; t < $scope.tabs.length; t++) {
-                //console.log("changState t is" + $scope.tabs[t]);
+                //console.log("changTabStatus t is" + $scope.tabs[t]);
                 if ($scope.tabs[t].Num == index) {
                     $scope.tabs[t].state = 'md-primary';
                 } else {
@@ -68,7 +62,7 @@
 
             //更新按钮列表，弹出提示，载入数据被包含在changeState()函数之中
             tabs.push({ title: name, Num: $scope.tabNum, state: 'md-primary' });
-            $scope.changState($scope.tabNum);
+            $scope.changTabStatus($scope.tabNum);
             //$scope.loadData2($scope.tabNum);
             $scope.showAlert();
 
@@ -76,7 +70,7 @@
 
         //函数：fileChange() 
         //用途: 根据输入文件的名称与路径，更新按钮以及生产数据
-        $scope.fileChange = function fileChange(val) {
+        $rootScope.fileChange = function fileChange(val) {
             console.log(val);
             console.log(val[0].name);
             console.log(val[0].path);

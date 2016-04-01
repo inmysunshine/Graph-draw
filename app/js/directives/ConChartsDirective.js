@@ -57,7 +57,7 @@ angular.module('drawApp.directive', [])
                             graph.title = "混凝土上缘最大应力";
                             graph.lineThickness = 3;
                             graph.labelText = "";
-                            graph.lineColor = "#000000";
+                            graph.lineColor = "#FF0000";
                             graph.fontSize = 15;
                             chart.addGraph(graph);
 
@@ -67,7 +67,7 @@ angular.module('drawApp.directive', [])
                             graph1.title = "混凝土上缘最小应力";
                             graph1.lineThickness = 3;
                             graph1.labelText = "";
-                            graph1.lineColor = "#FF0000";
+                            graph1.lineColor = "#000000";
                             graph1.fontSize = 15;
                             chart.addGraph(graph1);
 
@@ -95,27 +95,32 @@ angular.module('drawApp.directive', [])
                             chart.write("chartdiv");
                         });
 
-                        //这些函数都是用来全局的函数，用来修改chart中的数据
-                        //loadData()定义了当菜单变化时载入的数据
-                        scope.loadData = function loadData(str, tabNum) {
-                            scope.conChartLabel = "组合应力" + str[1];
+                        //这些函数用来修改chart中的数据
+                        //函数：loadData()
+                        //用途：根据左侧菜单变化载入数据
+                        //参数：
+                        //type表示类别：组合应力，施工阶段应力或其他
+                        //combNum表示第几个组合
+                        //tabNum表示当前选择的数据文件编号
+                        scope.loadData = function loadData(type, combNum, tabNum) {
+                            scope.conChartLabel = "组合应力" + combNum;
                             //console.log(str[0] + str[1]);
                             var urlStr;
-                            if (str[0] == "组合应力") {
-                                urlStr = "data/" + tabNum + "/Comb" + str[1] + ".json";
+                            if (type == "组合应力") {
+                                urlStr = "data/" + tabNum + "/Comb" +combNum + ".json";
                                 //console.log(chart.dataLoader.url);
                             };
                             chart.dataLoader.url = urlStr;
                             //console.log(chart);
-                            //加载两次，因为只加载一次会出现暂时无法解释的BUG
                             chart.dataLoader.loadData();
                             chart.validateData();
                             chart.validateNow();
-                            //chart.dataLoader.loadData();
-                            //chart.validateData();
-                            //chart.validateNow();
                         };
-                        //loadData2()定义了当按钮变化时载入的数据
+
+                        //函数：loadData2()
+                        //用途：根据上部导航按钮的变化载入数据(默认载入组合应力1)
+                        //参数：
+                        //tabNum表示当前选择的数据文件编号
                         scope.loadData2 = function loadData2(tabNum) {
                             console.log("before loadding data,the tabNum is " + tabNum);
                             var urlStr = "data/" + tabNum + "/Comb1.json";
@@ -134,18 +139,6 @@ angular.module('drawApp.directive', [])
 
 
 
-                        scope.loadMaxMin = function loadMaxMin() {
-
-                            if (graph.labelText == "" || graph1.labelText == "") {
-                                graph.labelText = "[[mark1]]";
-                                graph1.labelText = "[[mark2]]";
-                            } else {
-                                graph.labelText = "";
-                                graph1.labelText = "";
-                            }
-                            chart.validateNow();
-                        };
-
                         scope.mark = function mark(str) {
 
                             graph.labelText = "";
@@ -158,14 +151,16 @@ angular.module('drawApp.directive', [])
                                 if (strs[i] == "")
                                     break;
                                 //alert(strs[i]);
-                                graph.labelText += "[[up_smax" + strs[i] + "]]";
+                                graph.labelText += "[[up_max" + strs[i] + "]]";
                                 graph1.labelText += "[[up_min" + strs[i] + "]]";
 
                             }
                             chart.validateNow();
                         };
 
-                        scope.changeStatus = function changeStatus(str) {
+                        //函数：changeGraphStatus()
+                        //用途：根据字符串所给定的性质，重新绘制图表
+                        scope.changeGraphStatus = function changeGraphStatus(str) {
 
                             //第一个表示线条粗细
                             graph.lineThickness = scope.lineThickness;
