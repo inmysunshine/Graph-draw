@@ -1,6 +1,6 @@
 angular.module('drawApp.directive', [])
-    .directive('concretechart',
-        function() {
+    .directive('concretechart', ['GraphService',
+        function(GraphService) {
             return {
                 restrict: 'E',
                 replace: true,
@@ -101,13 +101,14 @@ angular.module('drawApp.directive', [])
                         //参数：
                         //type表示类别：组合应力，施工阶段应力或其他
                         //combNum表示第几个组合
-                        //tabNum表示当前选择的数据文件编号
-                        scope.loadData = function loadData(type, combNum, tabNum) {
-                            scope.conChartLabel = "组合应力" + combNum;
+                        scope.loadData = function loadData(type, combNum) {
+                            GraphService.type = type;
+                            GraphService.combNum = combNum;
+                            scope.conChartLabel = "组合应力" + GraphService.combNum;
                             //console.log(str[0] + str[1]);
                             var urlStr;
-                            if (type == "组合应力") {
-                                urlStr = "data/" + tabNum + "/Comb" +combNum + ".json";
+                            if (GraphService.type == "组合应力") {
+                                urlStr = "data/" + GraphService.currentNum + "/Comb" + GraphService.combNum + ".json";
                                 //console.log(chart.dataLoader.url);
                             };
                             chart.dataLoader.url = urlStr;
@@ -117,26 +118,48 @@ angular.module('drawApp.directive', [])
                             chart.validateNow();
                         };
 
-                        //函数：loadData2()
-                        //用途：根据上部导航按钮的变化载入数据(默认载入组合应力1)
-                        //参数：
-                        //tabNum表示当前选择的数据文件编号
-                        scope.loadData2 = function loadData2(tabNum) {
-                            console.log("before loadding data,the tabNum is " + tabNum);
-                            var urlStr = "data/" + tabNum + "/Comb1.json";
-                            //console.log("the urlStr is " + urlStr);
-                            scope.conChartLabel = "组合应力" + 1;
-                            chart.dataLoader.url = urlStr;
-                            chart.dataLoader.loadData();
+                        var flag = true;
+                        var guideMax = new AmCharts.Guide();
+                        var guideMin = new AmCharts.Guide();
+
+                        scope.loadMaxMin = function loadMaxMin() {
+
+                            // get chart and value axis
+                            //var chart = event.chart;
+                            var axis = chart.valueAxes[0];
+
+                            // create max guide
+                            guideMax.value = guideMax.label = axis.maxReal;
+                            guideMax.lineAlpha = 0.5;
+                            guideMax.lineThickness = 3;
+                            guideMax.lineColor = guideMax.color = "#FF0000";
+
+
+                            // create min guide
+                            guideMin.value = guideMin.label = axis.minReal;
+                            guideMin.lineAlpha = 0.5;
+                            guideMin.lineThickness = 3;
+                            guideMin.lineColor = guideMin.color = "#000000";
+
+
+                            if (flag) {
+                                axis.addGuide(guideMax);
+                                axis.addGuide(guideMin);
+                                console.log("true");
+                                flag = false;
+                            } else {
+                                axis.removeGuide(guideMax);
+                                axis.removeGuide(guideMin);
+                                console.log("false");
+                                flag = true;
+                            }
+
+                            //console.log(flag);
+
                             chart.validateNow();
-                            chart.validateData();
-                            //chart.dataLoader.loadData();
-                            //chart.validateData();
-                            //chart.validateNow();
-                            console.log("after loadding data,the tabNum is " + tabNum);
+
 
                         };
-
 
 
                         scope.mark = function mark(str) {
@@ -163,15 +186,16 @@ angular.module('drawApp.directive', [])
                         scope.changeGraphStatus = function changeGraphStatus(str) {
 
                             //第一个表示线条粗细
-                            graph.lineThickness = scope.lineThickness;
-                            graph1.lineThickness = scope.lineThickness;
+                            //console.log(GraphService.lineThickness+"!!!");
+                            graph.lineThickness = GraphService.lineThickness;
+                            graph1.lineThickness = GraphService.lineThickness;
                             //第二个表示坐标轴字体
-                            categoryAxis.fontSize = scope.axisFontSize;
-                            valueAxis.fontSize = scope.axisFontSize;
+                            categoryAxis.fontSize = GraphService.axisFontSize;
+                            valueAxis.fontSize = GraphService.axisFontSize;
                             //legend.fontSize=strs[1];
                             //第三个表示标注字体
-                            graph.fontSize = scope.labelFontSize;
-                            graph1.fontSize = scope.labelFontSize;
+                            graph.fontSize = GraphService.labelFontSize;
+                            graph1.fontSize = GraphService.labelFontSize;
 
                             //分割字符串
                             //var strs = new Array(); //定义一数组
@@ -194,4 +218,5 @@ angular.module('drawApp.directive', [])
 
                     } //end link           
             } //end return
-        });
+        }
+    ]);

@@ -1,3 +1,5 @@
+var module = angular.module('drawApp.service', []);
+
 module.service('GraphService', ['$rootScope', function($rootScope) {
 
     var service = {
@@ -12,13 +14,13 @@ module.service('GraphService', ['$rootScope', function($rootScope) {
         ],
         conChartLabel: "组合应力2",
 
-        //currentNum表示当前选择的数据文件编号
+        //type表示类别：组合应力，施工阶段应力或其他
+        //combNum表示第几个组合
+        //tabNum表示当前选择的数据文件编号
+        type: "组合应力",
+        combNum: 2,
         currentNum: 1,
 
-        addBook: function(book) {
-            service.books.push(book);
-            $rootScope.$broadcast('books.update');
-        }
     }
     return service;
 }]);

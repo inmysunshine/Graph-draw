@@ -8,7 +8,8 @@ var drawApp = angular.module('drawApp', [
     'drawApp.controller',
     'drawApp.controller2',
     'drawApp.controller3',
-    'drawApp.directive'
+    'drawApp.directive',
+    'drawApp.service'
 ]);
 
 
