@@ -5,94 +5,106 @@ angular.module('drawApp.directive', [])
                 restrict: 'E',
                 replace: true,
 
-                template: '<div id="chartdiv" style="min-width: 310px; height: 400px; margin: 0 auto"></div>',
+                template: '<div><div id="chartdiv0" style="min-width: 310px; height: 400px; margin: 0 auto"></div>' + '<div id="chartdiv1" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>',
+
                 link: function(scope, element, attrs) {
 
-                        var chart;
-                        var graph;
-                        var graph1;
-                        var graph2;
-                        var categoryAxis;
-                        var valueAxis;
-                        var legend;
+                        var chart1, chart2;
+                        var categoryAxis1, categoryAxis2;
+                        var valueAxis1, valueAxis2;
+                        var legend1, legend2;
+
+                        var chart = [chart1, chart2];
+                        var categoryAxis = [categoryAxis1, categoryAxis2];
+                        var valueAxis = [valueAxis1, valueAxis2];
+                        var legend = [legend1, legend2];
+
+                        var graph1, graph2, graph3, graph4, graph5;
+                        var graph = [graph1, graph2, graph3, graph4, graph5];
+                        var graphItem = [
+                            { "startNum": 0, "endNum": 2 },
+                            { "startNum": 2, "endNum": 6 },
+                        ];
+                        var graphInfo = [
+                            { "valueField": "up_max", "title": "混凝土上缘最大应力", "lineColor": "#FF0000" },
+                            { "valueField": "up_min", "title": "混凝土上缘最小应力", "lineColor": "#000000" },
+                            { "valueField": "div_max", "title": "钢梁上缘最大应力", "lineColor": "#FF0000" },
+                            { "valueField": "div_min", "title": "钢梁上缘最小应力", "lineColor": "#000000" },
+                            { "valueField": "dwn_max", "title": "钢梁下缘最大应力", "lineColor": "#228B22" },
+                            { "valueField": "dwn_min", "title": "钢梁下缘最小应力", "lineColor": "#0000FF" },
+                        ];
 
                         AmCharts.ready(function() {
-                            // SERIAL CHART
-                            chart = new AmCharts.AmSerialChart();
-                            console.log('AmCharts ready !');
 
-                            chart.dataLoader = {
-                                "url": "/data/1/Comb2.json",
-                                "format": "json"
-                            };
+                            for (var i = 0; i < 2; i++) {
+                                // SERIAL CHART
+                                chart[i] = new AmCharts.AmSerialChart();
+                                console.log(chart[i]);
 
-                            console.log('The dataLoader url is ' + chart.dataLoader.url);
+                                chart[i].dataLoader = {
+                                    "url": "/data/1/Comb2.json",
+                                    "format": "json"
+                                };
 
-                            //chart.dataProvider = chartData;
-                            chart.marginLeft = 10;
-                            chart.categoryField = "num";
+                                //chart[i].dataProvider = chartData;
+                                chart[i].marginLeft = 10;
+                                chart[i].categoryField = "num";
 
-                            // AXES
-                            // category
-                            categoryAxis = chart.categoryAxis;
-                            categoryAxis.fontSize = 15;
-                            categoryAxis.axisAlpha = 0.07;
-                            categoryAxis.dashLength = 3;
-                            categoryAxis.minorGridEnabled = true;
-                            categoryAxis.minorGridAlpha = 0.1;
+                                // AXES
+                                // category
+                                categoryAxis[i] = chart[i].categoryAxis;
+                                categoryAxis[i].fontSize = 15;
+                                categoryAxis[i].axisAlpha = 0.07;
+                                categoryAxis[i].dashLength = 3;
+                                categoryAxis[i].minorGridEnabled = true;
+                                categoryAxis[i].minorGridAlpha = 0.1;
 
-                            // value
-                            valueAxis = new AmCharts.ValueAxis();
-                            valueAxis.fontSize = 15;
-                            valueAxis.axisAlpha = 0.07;
-                            valueAxis.inside = true;
-                            valueAxis.dashLength = 3;
-                            valueAxis.title = "MPa";
-                            chart.addValueAxis(valueAxis);
+                                // value
+                                valueAxis[i] = new AmCharts.ValueAxis();
+                                valueAxis[i].fontSize = 15;
+                                valueAxis[i].axisAlpha = 0.07;
+                                valueAxis[i].inside = true;
+                                valueAxis[i].dashLength = 3;
+                                valueAxis[i].title = "MPa";
+                                chart[i].addValueAxis(valueAxis[i]);
 
-                            // GRAPH
-                            graph = new AmCharts.AmSerialChart();
-                            graph.valueField = "up_max";
-                            graph.type = "line";
-                            graph.title = "混凝土上缘最大应力";
-                            graph.lineThickness = 3;
-                            graph.labelText = "";
-                            graph.lineColor = "#FF0000";
-                            graph.fontSize = 15;
-                            chart.addGraph(graph);
+                                // GRAPH
+                                for (var j = graphItem[i].startNum; j < graphItem[i].endNum; j++) {
+                                    graph[j] = new AmCharts.AmSerialChart();
+                                    graph[j].valueField = graphInfo[j].valueField;
+                                    graph[j].type = "line";
+                                    graph[j].title = graphInfo[j].title;
+                                    graph[j].lineThickness = 3;
+                                    graph[j].labelText = "";
+                                    graph[j].lineColor = graphInfo[j].lineColor;
+                                    graph[j].fontSize = 15;
+                                    chart[i].addGraph(graph[j]);
+                                }
 
-                            graph1 = new AmCharts.AmSerialChart();
-                            graph1.valueField = "up_min";
-                            graph1.type = "line";
-                            graph1.title = "混凝土上缘最小应力";
-                            graph1.lineThickness = 3;
-                            graph1.labelText = "";
-                            graph1.lineColor = "#000000";
-                            graph1.fontSize = 15;
-                            chart.addGraph(graph1);
+                                // CURSOR
+                                var chartCursor = new AmCharts.ChartCursor();
+                                chartCursor.cursorAlpha = 0;
+                                chartCursor.cursorPosition = "mouse";
+                                chart[i].addChartCursor(chartCursor);
 
-                            // CURSOR
-                            var chartCursor = new AmCharts.ChartCursor();
-                            chartCursor.cursorAlpha = 0;
-                            chartCursor.cursorPosition = "mouse";
-                            chart.addChartCursor(chartCursor);
+                                // SCROLLBAR
+                                var chartScrollbar = new AmCharts.ChartScrollbar();
+                                chart[i].addChartScrollbar(chartScrollbar);
+                                chart[i].creditsPosition = "bottom-right";
 
-                            // SCROLLBAR
-                            var chartScrollbar = new AmCharts.ChartScrollbar();
-                            chart.addChartScrollbar(chartScrollbar);
-                            chart.creditsPosition = "bottom-right";
+                                // LEGEND
+                                legend[i] = new AmCharts.AmLegend();
+                                legend[i].bulletType = "round";
+                                legend[i].equalWidths = false;
+                                legend[i].fontSize = 15;
+                                legend[i].valueText = "[[value]]MPa";
+                                legend[i].valueWidth = 120;
+                                chart[i].addLegend(legend[i]);
 
-                            // LEGEND
-                            legend = new AmCharts.AmLegend();
-                            legend.bulletType = "round";
-                            legend.equalWidths = false;
-                            legend.fontSize = 15;
-                            legend.valueText = "[[value]]MPa";
-                            legend.valueWidth = 120;
-                            chart.addLegend(legend);
+                                // WRITE
+                                chart[i].write("chartdiv" + i);
 
-                            // WRITE
-                            chart.write("chartdiv");
+                            }
                         });
 
                         //这些函数用来修改chart中的数据
@@ -111,109 +123,117 @@ angular.module('drawApp.directive', [])
                                 urlStr = "data/" + GraphService.currentNum + "/Comb" + GraphService.combNum + ".json";
                                 //console.log(chart.dataLoader.url);
                             };
-                            chart.dataLoader.url = urlStr;
-                            //console.log(chart);
-                            chart.dataLoader.loadData();
-                            chart.validateData();
-                            chart.validateNow();
+
+                            for (var i = 0; i < 2; i++) {
+                                chart[i].dataLoader.url = urlStr;
+                                chart[i].dataLoader.loadData();
+                                chart[i].validateData();
+                                chart[i].validateNow();
+                            }
                         };
 
-                        var flag = true;
+                        var flag1 = true;
+                        var flag2 = true;
+                        var flag = [flag1, flag2];
                         var guideMax = new AmCharts.Guide();
                         var guideMin = new AmCharts.Guide();
 
                         scope.loadMaxMin = function loadMaxMin() {
 
-                            // get chart and value axis
-                            //var chart = event.chart;
-                            var axis = chart.valueAxes[0];
+                            for (var i = 0; i < 2; i++) {
 
-                            // create max guide
-                            guideMax.value = guideMax.label = axis.maxReal;
-                            guideMax.lineAlpha = 0.5;
-                            guideMax.lineThickness = 3;
-                            guideMax.lineColor = guideMax.color = "#FF0000";
+                                // get chart and value axis
+                                //var chart = event.chart;
+                                var axis = chart[i].valueAxes[0];
 
-
-                            // create min guide
-                            guideMin.value = guideMin.label = axis.minReal;
-                            guideMin.lineAlpha = 0.5;
-                            guideMin.lineThickness = 3;
-                            guideMin.lineColor = guideMin.color = "#000000";
+                                // create max guide
+                                guideMax.value = guideMax.label = axis.maxReal;
+                                guideMax.lineAlpha = 0.5;
+                                guideMax.lineThickness = 3;
+                                guideMax.lineColor = guideMax.color = "#FF0000";
 
 
-                            if (flag) {
-                                axis.addGuide(guideMax);
-                                axis.addGuide(guideMin);
-                                console.log("true");
-                                flag = false;
-                            } else {
-                                axis.removeGuide(guideMax);
-                                axis.removeGuide(guideMin);
-                                console.log("false");
-                                flag = true;
+                                // create min guide
+                                guideMin.value = guideMin.label = axis.minReal;
+                                guideMin.lineAlpha = 0.5;
+                                guideMin.lineThickness = 3;
+                                guideMin.lineColor = guideMin.color = "#000000";
+
+
+                                if (flag[i]) {
+                                    axis.addGuide(guideMax);
+                                    axis.addGuide(guideMin);
+                                    console.log("true");
+                                    flag[i] = false;
+                                } else {
+                                    axis.removeGuide(guideMax);
+                                    axis.removeGuide(guideMin);
+                                    console.log("false");
+                                    flag[i] = true;
+                                }
+
+                                chart[i].validateNow();
                             }
-
-                            //console.log(flag);
-
-                            chart.validateNow();
-
 
                         };
 
 
                         scope.mark = function mark(str) {
 
-                            graph.labelText = "";
-                            graph1.labelText = "";
+                            console.log(str);
+                            if (typeof(str)=="undefined") {
+                                for (var i = 0; i < 6; i++) {
+                                    graph[i].labelText = "";
+                                }
+                                console.log("the str is empty");
+                                chart[0].validateNow();
+                                chart[1].validateNow();
+                                return;
+                            }
 
                             //分割字符串
                             var strs = new Array(); //定义一数组
                             strs = str.split(" "); //字符分割
-                            for (i = 0; i < strs.length; i++) {
-                                if (strs[i] == "")
-                                    break;
-                                //alert(strs[i]);
-                                graph.labelText += "[[up_max" + strs[i] + "]]";
-                                graph1.labelText += "[[up_min" + strs[i] + "]]";
 
+                            for (var i = 0; i < 6; i++) {
+
+                                graph[i].labelText = "";
+
+                                for (j = 0; j < strs.length; j++) {
+                                    if (strs[j] == "")
+                                        break;
+                                    graph[i].labelText += "[[" + graphInfo[i].valueField + strs[j] + "]]";
+                                }
                             }
-                            chart.validateNow();
+                            chart[0].validateNow();
+                            chart[1].validateNow();
+
                         };
 
                         //函数：changeGraphStatus()
                         //用途：根据字符串所给定的性质，重新绘制图表
                         scope.changeGraphStatus = function changeGraphStatus(str) {
 
-                            //第一个表示线条粗细
-                            //console.log(GraphService.lineThickness+"!!!");
-                            graph.lineThickness = GraphService.lineThickness;
-                            graph1.lineThickness = GraphService.lineThickness;
-                            //第二个表示坐标轴字体
-                            categoryAxis.fontSize = GraphService.axisFontSize;
-                            valueAxis.fontSize = GraphService.axisFontSize;
-                            //legend.fontSize=strs[1];
-                            //第三个表示标注字体
-                            graph.fontSize = GraphService.labelFontSize;
-                            graph1.fontSize = GraphService.labelFontSize;
-
-                            //分割字符串
-                            //var strs = new Array(); //定义一数组
-                            //strs = str.split("#"); //字符分割
-                            var decimal = Number(str[0].red) * 65536 + Number(str[0].green) * 256 + Number(str[0].blue);
-                            var s = decimal.toString(16);
-                            while (s.length < 6)
-                                s = "0" + s;
-
-                            var decimal1 = Number(str[1].red) * 65536 + Number(str[1].green) * 256 + Number(str[1].blue);
-                            var s1 = decimal1.toString(16);
-                            while (s1.length < 6)
-                                s1 = "0" + s1;
+                            for (var i = 0; i < 2; i++) {
+                                categoryAxis[i].fontSize = GraphService.axisFontSize;
+                                valueAxis[i].fontSize = GraphService.axisFontSize;
+                            }
 
 
-                            graph.lineColor = "#" + s;
-                            graph1.lineColor = "#" + s1;
-                            chart.validateNow();
+                            for (var i = 0; i < 6; i++) {
+                                graph[i].lineThickness = GraphService.lineThickness;
+                                graph[i].fontSize = GraphService.labelFontSize;
+
+                                var decimal = Number(str[i].red) * 65536 + Number(str[i].green) * 256 + Number(str[i].blue);
+                                var s = decimal.toString(16);
+                                while (s.length < 6)
+                                    s = "0" + s;
+                                graph[i].lineColor = "#" + s;
+                            }
+
+                            chart[0].validateNow();
+                            chart[1].validateNow();
+
                         }
 
                     } //end link           

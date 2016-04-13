@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="css/style.css" type="text/css" />
 </head>
 
-<body ng-app="drawApp" layout="row">
-    <div flex layout="row">
-        <md-sidenav layout="column" style="overflow: hidden; display: flex;width: 250px;height: 700px" class="md-sidenav-left md-whiteframe-z2" md-is-locked-open="true">
+<body ng-app="drawApp">
+    <div layout="row">
+        <md-sidenav layout="column" class="site-sidenav md-sidenav-left" style="width: 225px;height: 100%;position:fixed" md-is-locked-open=true md-whiteframe="4">
             <!-- Container #1 -->
             <md-toolbar class="md-primary md-hue-2">
                 <div class="sidemenu-logo"></div>
@@ -58,13 +58,13 @@
             </div>
         </md-sidenav>
         <!-- Container #3 -->
-        <div class="sample" layout="column" ng-cloak>
+        <div layout="column" class="layout-column flex" style="padding-left: 235px" ng-cloak>
             <md-menu-bar ng-controller="TabController">
                 <md-button ng-repeat="tab in tabs" class={{tab.state}} ng-click="changTabStatus(tab.Num)">
                     {{tab.title}}
                 </md-button>
             </md-menu-bar>
-            <div style="padding-left: 10px" id="content">
+            <div  id="content">
                 {{conChartLabel}}
                 <concretechart></concretechart>
             </div>

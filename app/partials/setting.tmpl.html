@@ -40,20 +40,9 @@
                         <md-icon md-menu-origin md-svg-icon="img/ic_lens_48px.svg" ng-attr-style="border: 1px solid #333; color: rgb({{color.red}},{{color.green}},{{color.blue}});background: rgb({{color.red}},{{color.green}},{{color.blue}})"></md-icon>
                         </div>
                         <md-menu-content width="4">
-                            <md-menu-item>
-                                <md-button ng-click="selectItem1()">
-                                    混凝土上缘最大应力
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button ng-click="selectItem2()">
-                                    混凝土上缘最小应力
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-divider></md-menu-divider>
-                            <md-menu-item>
-                                <md-button ng-click="selectItem3()">
-                                    其他
+                            <md-menu-item ng-repeat="ti in title">
+                                <md-button ng-click="selectItem(ti.index)">
+                                    {{ti.name}}
                                 </md-button>
                             </md-menu-item>
                         </md-menu-content>

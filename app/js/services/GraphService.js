@@ -8,9 +8,21 @@ module.service('GraphService', ['$rootScope', function($rootScope) {
         lineThickness: 3,
         axisFontSize: 15,
         labelFontSize: 15,
-        col: [
+        info: [
+            { index: 0, name: '混凝土上缘最大应力' },
+            { index: 1, name: '混凝土上缘最小应力' },
+            { index: 2, name: '钢梁上缘最大应力' },
+            { index: 3, name: '钢梁上缘最小应力' },
+            { index: 4, name: '钢梁下缘最大应力' },
+            { index: 5, name: '钢梁下缘最小应力' }
+        ],
+        colorSet: [
             { red: 255, green: 0, blue: 0 },
-            { red: 0, green: 0, blue: 0 }
+            { red: 0, green: 0, blue: 0 },
+            { red: 255, green: 0, blue: 0 },
+            { red: 0, green: 0, blue: 0 },
+            { red: 34, green: 139, blue: 34 },
+            { red: 0, green: 0, blue: 255 }
         ],
         conChartLabel: "组合应力2",
 

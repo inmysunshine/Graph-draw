@@ -128,6 +128,13 @@ function readLines(data, outputpath) {
             }
             result += ']';
 
+            if (fs.existsSync('/data')) {
+                //console.log('已经创建过此更新目录了');
+            } else {
+                fs.mkdirSync('/data');
+                //console.log('更新目录已创建成功\n');
+            }
+
             //创建数据文件目录
             //数据文件只有创建在安装目录下，因为amchart不支持读取本地文件
             //在安装目录下生成data文件夹，内部有1,2,3,4等文件夹，代表第n个按钮对应的数据文件

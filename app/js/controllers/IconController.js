@@ -56,10 +56,11 @@ angular.module('drawApp.controller3', [])
      $scope.lineThickness = GraphService.lineThickness;
      $scope.axisFontSize = GraphService.axisFontSize;
      $scope.labelFontSize = GraphService.labelFontSize;
-     $scope.label = "混凝土上缘最大应力";
-     console.log(GraphService.col);
-     $scope.col = GraphService.col;
-     $scope.color = GraphService.col[0];
+
+     $scope.info=GraphService.info;
+     $scope.label = GraphService.info[0].name;
+     $scope.colorSet = GraphService.colorSet;
+     $scope.color = GraphService.colorSet[0];
 
      $scope.openMenu = function($mdOpenMenu, ev) {
          originatorEv = ev;
@@ -71,21 +72,18 @@ angular.module('drawApp.controller3', [])
      $scope.cancel = function() {
          $mdDialog.cancel();
      };
+     //????
      $scope.answer = function(answer) {
          GraphService.lineThickness = $scope.lineThickness;
          GraphService.axisFontSize = $scope.axisFontSize;
          GraphService.labelFontSize = $scope.labelFontSize;
-         GraphService.col = $scope.col;
-         $mdDialog.hide($scope.col);
+         GraphService.colorSet = $scope.colorSet;
+         $mdDialog.hide($scope.colorSet);
      };
 
-     $scope.selectItem1 = function() {
-         $scope.label = "混凝土上缘最大应力";
-         $scope.color = $scope.col[0];
+     $scope.selectItem = function(index) {
+         $scope.label = $scope.info[index].name;
+         $scope.color = $scope.colorSet[index];
 
-     };
-     $scope.selectItem2 = function() {
-         $scope.label = "混凝土上缘最小应力";
-         $scope.color = $scope.col[1];
      };
  };

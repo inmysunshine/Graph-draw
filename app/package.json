@@ -4,8 +4,6 @@
     "window": {
         "toolbar": false,
         "width": 1200,
-        "height": 700,
-        "max_width":1200,
-        "max_height":700
+        "height": 800
     }
 }
