@@ -89,8 +89,5 @@ function TabCtrl($scope, $mdDialog, $window, $rootScope, GraphService) {
         $scope.addTab(e.dataTransfer.files[0].name, e.dataTransfer.files[0].path);
         return false;
     };
-    $window.onload = function() {
-        delData();
-    }
 
 }

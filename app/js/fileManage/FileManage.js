@@ -1,9 +1,11 @@
 var fs = require('fs');
 
 //测试时候用
-//var str = "C:/Documents and Settings/Administrator/桌面/test/";
-//var path = "data/1";
+//var str = "C:/Documents and Settings/Administrator/桌面/test/12.out";
+//var path = "C:/data/1";
 //createData(str, path);
+//测试时候用
+
 
 //函数：createData
 //参数str：输入文件的全部路径
@@ -14,31 +16,18 @@ function createData(str, path) {
     //console.log(str);
     //var input = fs.createReadStream(str);
     var input = fs.readFileSync(str, "utf-8");
-    readLines(input, path);
+    genData(input, path);
     console.log("has createData!");
 
 }
 
-function delData() {
-    // 删除data文件夹 
-    /*
-    var exec = require('child_process').exec;
-    exec('rm -rf data/',
-        function(error, stdout, stderr) {
-            if (error !== null) {
-                console.log('exec error: ' + error);
-            }
 
-        });
-    */
-}
-
-//函数：readLines
+//函数：genData
 //参数data：输入的文件数据
 //参数path：生成数据文件存放的目录，形如data/1
 //函数用途：createData的具体实现
 
-function readLines(data, outputpath) {
+function genData(data, outputpath) {
 
     //参数：remaining表示数据被一行一行读取后剩余的数据
     //参数：row表示当前的行号
@@ -49,51 +38,53 @@ function readLines(data, outputpath) {
     var combNum = 0;
     var eleNum = 0;
 
-    //input.on('data', function(data) {
-    //如果用文件流的话，文件是持续读出来的，并不是一口气全部读出来的
-    //会出现输出文件到一定量时输出的全是空白符号的错误，由于异步操作引起
-    //解决方案目前还没有思路
-    //var output2 = fs.createWriteStream("data.txt");
-    //output2.write(data);
+    //保证根目录下存在/data子目录
+    if (fs.existsSync('/data')) {} else {
+        fs.mkdirSync('/data');
+    }
 
     remaining += data;
     var index = remaining.indexOf('\n');
+
+    function getLine(num) {
+        for (var j = 0; j < num; j++) {
+            index = remaining.indexOf('\n');
+            line = remaining.substring(0, index);
+            remaining = remaining.substring(index + 1);
+            row++;
+        }
+    }
+
+    //开始读取数据文件，逐行读取
     while (index > -1) {
-        //console.log(index);
         var line = remaining.substring(0, index);
         remaining = remaining.substring(index + 1);
         //对每一个读入的行进行操作
         row++;
         //从第66行读到组合数以及单元总数
-        //console.log(row);
         if (row == 66) {
-            //console.log(line);
             eleNum = line.substring(41, 44);
             combNum = line.substring(73, 76);
             //console.log("combNum is " + combNum + " and eleNum is " + eleNum);
         }
+
+        //createCombData
         //对每一行进行判断，如果当前行有“CO0=”形式的字符，就对该行之后的数据进行处理
         if (line.substring(10, 14) == 'CO0=') {
             //参数currentCombNum表示当前是第几个组合数
-            currentCombNum = line.substring(16, 17);
+            var currentCombNum = line.substring(16, 17);
             //console.log("In combination"+currentCombNum);
-            var result = '';
-            result += '[\n';
+            var combResult = '';
+            combResult += '[\n';
             //读取下一行
-            index = remaining.indexOf('\n');
-            line = remaining.substring(0, index);
-            remaining = remaining.substring(index + 1);
-            index = remaining.indexOf('\n');
-            line = remaining.substring(0, index);
-            remaining = remaining.substring(index + 1);
-            row += 2;
+            getLine(2);
             //开始处理数据
             for (var i = 1; i <= eleNum; i++) {
                 //if(currentCombNum==1){
                 //console.log(line);
                 //}                 
-                result += '{\n';
-                result += '"num":' + line.substring(4, 7) + ',\n';
+                combResult += '{\n';
+                combResult += '"num":' + line.substring(4, 7) + ',\n';
                 var t1 = (Number(line.substring(11, 23)) / 6).toFixed(2);
                 var t2 = (Number(line.substring(23, 35)) / 6).toFixed(2);
                 var t3 = (Number(line.substring(35, 47))).toFixed(1);
@@ -101,67 +92,47 @@ function readLines(data, outputpath) {
                 var t5 = (Number(line.substring(59, 71))).toFixed(1);
                 var t6 = (Number(line.substring(71, 79))).toFixed(1);
 
-                result += '"up_max":' + t1 + ',\n';
-                result += '"up_min":' + t2 + ',\n';
-                result += '"dwn_max":' + t3 + ',\n';
-                result += '"dwn_min":' + t4 + ',\n';
-                result += '"div_max":' + t5 + ',\n';
-                result += '"div_min":' + t6 + ',\n';
-                result += '"up_max' + i + '":' + t1 + ',\n';
-                result += '"up_min' + i + '":' + t2 + ',\n';
-                result += '"dwn_max' + i + '":' + t3 + ',\n';
-                result += '"dwn_min' + i + '":' + t4 + ',\n';
-                result += '"div_max' + i + '":' + t5 + ',\n';
-                result += '"div_min' + i + '":' + t6 + '\n';
-                result += '}';
+                combResult += '"up_max":' + t1 + ',\n';
+                combResult += '"up_min":' + t2 + ',\n';
+                combResult += '"dwn_max":' + t3 + ',\n';
+                combResult += '"dwn_min":' + t4 + ',\n';
+                combResult += '"div_max":' + t5 + ',\n';
+                combResult += '"div_min":' + t6 + ',\n';
+                combResult += '"up_max' + i + '":' + t1 + ',\n';
+                combResult += '"up_min' + i + '":' + t2 + ',\n';
+                combResult += '"dwn_max' + i + '":' + t3 + ',\n';
+                combResult += '"dwn_min' + i + '":' + t4 + ',\n';
+                combResult += '"div_max' + i + '":' + t5 + ',\n';
+                combResult += '"div_min' + i + '":' + t6 + '\n';
+                combResult += '}';
                 if (i != eleNum) {
-                    result += ',\n';
+                    combResult += ',\n';
                 }
                 //读取下一行
-                index = remaining.indexOf('\n');
-                line = remaining.substring(0, index);
-                remaining = remaining.substring(index + 1);
-                index = remaining.indexOf('\n');
-                line = remaining.substring(0, index);
-                remaining = remaining.substring(index + 1);
-                row += 2;
+                getLine(2);
             }
-            result += ']';
-
-            if (fs.existsSync('/data')) {
-                //console.log('已经创建过此更新目录了');
-            } else {
-                fs.mkdirSync('/data');
-                //console.log('更新目录已创建成功\n');
-            }
+            combResult += ']';
 
             //创建数据文件目录
             //数据文件只有创建在安装目录下，因为amchart不支持读取本地文件
             //在安装目录下生成data文件夹，内部有1,2,3,4等文件夹，代表第n个按钮对应的数据文件
             if (fs.existsSync(outputpath)) {
-                //console.log('已经创建过此更新目录了');
+                console.log('已经创建过此更新目录了');
             } else {
                 fs.mkdirSync(outputpath);
-                //console.log('更新目录已创建成功\n');
+                console.log('更新目录已创建成功\n');
             }
             console.log(outputpath + "/Comb" + currentCombNum + ".json");
 
             //输出流是异步的啊！！！
             //var output = fs.createWriteStream(outputpath + "/Comb" + currentCombNum + ".json");
-            //output.write(result);
+            //output.write(combResult);
             var output = outputpath + "/Comb" + currentCombNum + ".json";
-            fs.writeFileSync(output, result);
-        }
+            fs.writeFileSync(output, combResult);
+
+        } //end createCombData
+
         index = remaining.indexOf('\n');
-    }
 
-    //});
-
-    /*
-    input.on('end', function() {
-        if (remaining.length > 0) {
-            //console.log(remaining);
-        }
-    });
-    */
-}
+    } //end while
+} //end function
