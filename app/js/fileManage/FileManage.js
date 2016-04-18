@@ -39,8 +39,11 @@ function genData(data, outputpath) {
     var eleNum = 0;
 
     //保证根目录下存在/data子目录
-    if (fs.existsSync('/data')) {} else {
-        fs.mkdirSync('/data');
+    if (fs.existsSync('data')) {
+        console.log("data folder has been created");
+    } else {
+        fs.mkdirSync('data');
+        console.log("data folder created");
     }
 
     remaining += data;
