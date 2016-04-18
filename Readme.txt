@@ -7,3 +7,7 @@ Use nw.js and angularjs
 <2>git clone
 <3>node install
 <4>cd /app bower install
+
+nw.js 13.0
+zip
+copy /b nw.exe+app.nw app.exe

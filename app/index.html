@@ -5,12 +5,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Graph-Draw</title>
+    <!--build:css css/all.css-->
     <!--angular material-->
     <link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css">
     <!--link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css"-->
     <!--link rel="stylesheet" href="bower_components/Materialize/dist/css/materialize.min.css" type="text/css" /-->
     <link rel="stylesheet" href="css/animate.css" type="text/css" />
     <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <!--/build -->
 </head>
 
 <body ng-app="drawApp">
@@ -64,12 +66,13 @@
                     {{tab.title}}
                 </md-button>
             </md-menu-bar>
-            <div  id="content">
+            <div id="content">
                 {{conChartLabel}}
                 <concretechart></concretechart>
             </div>
         </div>
     </div>
+    <!--build:js js/all.js-->
     <!--amcharts-->
     <script src="bower_components/amcharts/dist/amcharts/amcharts.js" type="text/javascript"></script>
     <script src="bower_components/amcharts/dist/amcharts/serial.js" type="text/javascript"></script>
@@ -94,6 +97,7 @@
     <script src="js/directives/ConChartsDirective.js" type="text/javascript"></script>
     <script src="js/services/GraphService.js" type="text/javascript"></script>
     <script src="js/fileManage/FileManage.js" type="text/javascript"></script>
+    <!--/build -->
 </body>
 
 </html>

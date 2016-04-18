@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Graph-Draw</title>
+    <link rel="stylesheet" href="css/all.css"/>
+</head>
+
+<body ng-app="drawApp">
+    <div layout="row">
+        <md-sidenav layout="column" class="site-sidenav md-sidenav-left" style="width: 225px;height: 100%;position:fixed" md-is-locked-open=true md-whiteframe="4">
+            <!-- Container #1 -->
+            <md-toolbar class="md-primary md-hue-2">
+                <div class="sidemenu-logo"></div>
+            </md-toolbar>
+            <!-- Container #2 -->
+            <md-content>
+                <div ng-controller="ItemListCtrl">
+                    <div ng-repeat="item in items">
+                        <md-menu>
+                            <md-list-item class="md-list-item" ng-click="$mdOpenMenu()">{{item.name}}</md-list-item>
+                            <md-menu-content>
+                                <div ng-repeat="index in item.category">
+                                    <md-menu-item>
+                                        <md-button style="width: 200px" ng-click="loadData(item.name,index)">{{item.name}}{{index}}</md-button>
+                                    </md-menu-item>
+                                </div>
+                            </md-menu-content>
+                        </md-menu>
+                    </div>
+                </div>
+            </md-content>
+            <div ng-controller="IconCtrl" class="sidemenu-footer">
+                <md-button class="md-icon-button md-primary" aria-label="creat" style="padding-left: 0px">
+                    <md-icon md-svg-icon="img/ic_create_48px.svg" id="addIcon" ng-click="showPrompt($event)"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-primary" aria-label="grade" style="margin-left: -15px">
+                    <md-icon md-svg-icon="img/ic_grade_48px.svg" id="settingIcon" ng-click="loadMaxMin()"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-primary" aria-label="add" style="margin-left: -8px">
+                    <div id="openFile">
+                        <input type="file" onchange="angular.element(this).scope().fileChange(this.files)">
+                    </div>
+                    <div id="addFileIcon">
+                        <md-icon md-svg-icon="img/ic_add_circle_48px.svg" id="addIcon"></md-icon>
+                    </div>
+                </md-button>
+                <md-button class="md-icon-button md-primary" aria-label="setting" style="margin-left: -8px">
+                    <md-icon md-svg-icon="img/ic_settings_48px.svg" ng-click="showAdvanced($event)" id="settingIcon"></md-icon>
+                </md-button>
+            </div>
+        </md-sidenav>
+        <!-- Container #3 -->
+        <div layout="column" class="layout-column flex" style="padding-left: 235px" ng-cloak>
+            <md-menu-bar ng-controller="TabController">
+                <md-button ng-repeat="tab in tabs" class={{tab.state}} ng-click="changTabStatus(tab.Num)">
+                    {{tab.title}}
+                </md-button>
+            </md-menu-bar>
+            <div id="content">
+                {{conChartLabel}}
+                <concretechart></concretechart>
+            </div>
+        </div>
+    </div>
+    <script src="js/all.js"></script>
+</body>
+
+</html>
