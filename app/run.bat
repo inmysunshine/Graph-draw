@@ -1,1 +1,1 @@
-C:\nwjs-sdk-v0.13.0-rc3-win-ia32\nw.exe .
+C:\Users\Administrator\Desktop\Graph-draw\nwjs-sdk-v0.13.0-win-x64\nw.exe .

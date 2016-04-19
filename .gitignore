@@ -3,3 +3,7 @@
 /app/bower_components/
 /app/data/
 /public/release/
+/app/run.sh
+/app/run.bat
+/public/run.sh
+/public/run.bat
